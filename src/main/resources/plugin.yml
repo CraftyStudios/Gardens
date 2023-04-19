@@ -1,0 +1,5 @@
+name: Garden
+version: '${project.version}'
+main: pillage.garden.Garden
+api-version: 1.19
+load: STARTUP

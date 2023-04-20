@@ -4,4 +4,11 @@
 # ██║░░╚██╗██╔══██║██╔══██╗██║░░██║██╔══╝░░██║╚████║░╚═══██╗
 # ╚██████╔╝██║░░██║██║░░██║██████╔╝███████╗██║░╚███║██████╔╝
 # ░╚═════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚═════╝░╚══════╝╚═╝░░╚══╝╚═════╝░
-# Proudly made by PillageDev
+# Need help? Join the Recon Development Discord: https://discord.gg/UFTcmr9vxC
+
+Wheat-Fortune-Items: # Items that can be enchanted with the wheat fortune enchantment. Add the item's display name here (no color codes)
+  - "Wheat Hoe"
+
+Max-Wheat-Fortune-Level: 3 # The maximum level of the wheat fortune enchantment
+
+Wheat-Fortune-Name: "&aWheat Fortune" # The name of the wheat fortune enchantment

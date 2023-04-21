@@ -21,31 +21,31 @@ import java.util.Objects;
 
 import static me.pillage.garden.Events.GardenEventHandler.plugin;
 
-public class WheatFortune extends Enchantment implements Listener {
+public class CarrotFortune extends Enchantment implements Listener {
     private final ItemStack enchantedBook;
     static NamespacedKey recipeKey = new NamespacedKey(plugin, "wheat_fortune_recipe");
     ShapedRecipe recipe;
 
-    public WheatFortune(NamespacedKey id, ItemStack item) {
+    public CarrotFortune(NamespacedKey id, ItemStack item) {
         super(id);
         this.enchantedBook = createEnchantedBook(item);
     }
 
     @Override
     public String getName() {
-        return Objects.requireNonNull(plugin.getConfig().getString("Wheat-Fortune-Name"));
+        return Objects.requireNonNull(plugin.getConfig().getString("Carrot-Fortune-Name"));
     }
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        List<String> items = plugin.getConfig().getStringList("Wheat-Fortune-Items");
+        List<String> items = plugin.getConfig().getStringList("Carrot-Fortune-Items");
         String itemName = ChatColor.stripColor(Objects.requireNonNull(item.getItemMeta()).getDisplayName().toLowerCase());
         return item.getType().name().contains("HOE") && items.contains(itemName);
     }
 
     @Override
     public int getMaxLevel() {
-        return plugin.getConfig().getInt("Max-Wheat-Fortune-Level");
+        return plugin.getConfig().getInt("Max-Carrot-Fortune-Level");
     }
 
     @Override
@@ -73,15 +73,15 @@ public class WheatFortune extends Enchantment implements Listener {
         return false;
     }
 
-    private ItemStack createEnchantedBook(ItemStack wheatFortuneBook) {
-        Enchantment wheatFortune = this;
-        ItemMeta meta = wheatFortuneBook.getItemMeta();
+    private ItemStack createEnchantedBook(ItemStack carrotFortuneBook) {
+        Enchantment carrotFortune = this;
+        ItemMeta meta = carrotFortuneBook.getItemMeta();
         assert meta != null;
-        meta.addEnchant(wheatFortune, 1, true);
+        meta.addEnchant(carrotFortune, 1, true);
         meta.setDisplayName(getName() + " 1");
-        meta.setLore(Collections.singletonList(ChatColor.GRAY + plugin.getConfig().getString("Wheat-Fortune-Lore")));
-        wheatFortuneBook.setItemMeta(meta);
-        return wheatFortuneBook;
+        meta.setLore(Collections.singletonList(ChatColor.GRAY + plugin.getConfig().getString("Carrot-Fortune-Lore")));
+        carrotFortuneBook.setItemMeta(meta);
+        return carrotFortuneBook;
     }
 
     public ItemStack getEnchantedBook() {
@@ -94,9 +94,9 @@ public class WheatFortune extends Enchantment implements Listener {
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
 
         if (item != null) {
-            WheatFortune wheatFortune = new WheatFortune(new NamespacedKey(plugin, "wheat_fortune"), item);
-            if (wheatFortune.canEnchantItem(item)) {
-                GardenEventHandler.wheatFortune.put(player, item.getEnchantmentLevel(wheatFortune));
+            CarrotFortune carrotFortune = new CarrotFortune(new NamespacedKey(plugin, "carrot_fortune"), item);
+            if (carrotFortune.canEnchantItem(item)) {
+                GardenEventHandler.carrotFortune.put(player, item.getEnchantmentLevel(carrotFortune));
             }
         }
     }
@@ -105,7 +105,7 @@ public class WheatFortune extends Enchantment implements Listener {
         ShapedRecipe recipe = new ShapedRecipe(recipeKey, book);
         recipe.shape("___", "_PP", "_PW");
         recipe.setIngredient('P', new RecipeChoice.ExactChoice(new ItemStack(Material.PAPER, 16)));
-        recipe.setIngredient('W', new RecipeChoice.ExactChoice(new ItemStack(Material.WHEAT, 64)));
+        recipe.setIngredient('W', new RecipeChoice.ExactChoice(new ItemStack(Material.CARROTS, 64)));
         return recipe;
     }
 }

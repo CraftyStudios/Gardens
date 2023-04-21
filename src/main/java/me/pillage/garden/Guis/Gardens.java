@@ -1,6 +1,6 @@
 package me.pillage.garden.Guis;
 
-import me.pillage.garden.Events.GardenLevelHandler;
+import me.pillage.garden.Events.GardenEventHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,14 +19,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.pillage.garden.Events.GardenLevelHandler.plugin;
+import static me.pillage.garden.Events.GardenEventHandler.plugin;
 
 public class Gardens implements CommandExecutor, Listener {
 
     private ItemStack gardenLevelItem;
     private final Map<Player, BukkitRunnable> taskMap = new HashMap<>();
 
-    @Override
     public boolean onCommand(CommandSender commandSender, Command cmd, String s, String[] strings) {
         Player player = (Player) commandSender;
         if (cmd.getName().equalsIgnoreCase("gardens")) {
@@ -59,8 +58,8 @@ public class Gardens implements CommandExecutor, Listener {
         gardenLevelItem = new ItemStack(Material.SUNFLOWER);
         ItemMeta gardenLevelMeta = gardenLevelItem.getItemMeta();
         assert gardenLevelMeta != null;
-        gardenLevelMeta.setDisplayName("Garden Level" + GardenLevelHandler.gardenLevel);
-        gardenLevelMeta.setLore(Collections.singletonList("Garden XP: " + GardenLevelHandler.gardenXP + "/" + GardenLevelHandler.xpRequired + "|" + GardenLevelHandler.progressBar()));
+        gardenLevelMeta.setDisplayName("Garden Level" + GardenEventHandler.gardenLevel);
+        gardenLevelMeta.setLore(Collections.singletonList("Garden XP: " + GardenEventHandler.gardenXP + "/" + GardenEventHandler.xpRequired + "|" + GardenEventHandler.progressBar()));
         gardenLevelItem.setItemMeta(gardenLevelMeta);
         GardenGUI.setItem(22, gardenLevelItem);
 
@@ -79,10 +78,10 @@ public class Gardens implements CommandExecutor, Listener {
     }
 
     private void updateProgressBar(Player player) {
-        String progressBar = GardenLevelHandler.progressBar();
+        String progressBar = GardenEventHandler.progressBar();
         ItemMeta gardenLevelMeta = gardenLevelItem.getItemMeta();
         assert gardenLevelMeta != null;
-        gardenLevelMeta.setLore(Collections.singletonList("Garden XP: " + GardenLevelHandler.gardenXP + "/" + GardenLevelHandler.xpRequired + "|" + progressBar));
+        gardenLevelMeta.setLore(Collections.singletonList("Garden XP: " + GardenEventHandler.gardenXP + "/" + GardenEventHandler.xpRequired + "|" + progressBar));
         gardenLevelItem.setItemMeta(gardenLevelMeta);
         Inventory inventory = player.getOpenInventory().getTopInventory();
         inventory.setItem(22, gardenLevelItem);

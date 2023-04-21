@@ -10,13 +10,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GardenLevelHandler implements Listener {
+public class GardenEventHandler implements Listener {
     public static float gardenXP = 0;
     public static Map<Player, Integer> wheatFortune = new HashMap<>();
     public static Map<Player, Integer> carrotFortune = new HashMap<>();

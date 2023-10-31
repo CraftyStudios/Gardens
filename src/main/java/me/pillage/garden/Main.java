@@ -1,13 +1,7 @@
 package me.pillage.garden;
 
 import me.pillage.garden.Utils.Logger;
-import me.pillage.garden.Enchants.WheatFortune;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitScheduler;
 
 public final class Main extends JavaPlugin {
     

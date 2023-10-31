@@ -5,12 +5,19 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import me.pillage.garden.GPlayer;
+import me.pillage.garden.Levels;
+import me.pillage.garden.Main;
+
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -55,7 +62,7 @@ public class Garden implements Listener {
                         ItemMeta meta = item.getItemMeta();
                         if (meta != null && meta.hasLore()) {
                             List<String> lore = meta.getLore();
-                            meta.setLore(replacePlaceholders(lore));
+                            meta.setLore(replacePlaceholders(lore, (Player) entity));
                             item.setItemMeta(meta);
                         }
                     }
@@ -67,8 +74,18 @@ public class Garden implements Listener {
         entity.openInventory(clone);
     }
 
-    private List<String> replacePlaceholders(List<String> lore) {
-         return lore.stream().map(s -> s.replace("{level}", s)).collect(Collectors.toList());
+    private List<String> replacePlaceholders(List<String> lore, Player p) {
+        GPlayer gp = Main.getGPlayer(p.getUniqueId());
+        return lore.stream().map(s -> s.replaceAll("{level}", String.valueOf(gp.getgLevel())).replaceAll("{progress-top}", s)).collect(Collectors.toList());
+    }
+
+    private String getProgressTop(Player p) {
+        GPlayer gp = Main.getGPlayer(p.getUniqueId());
+        StringBuilder sb = new StringBuilder();
+        sb.append("&7Progress to Level ");
+        sb.append(gp.getgLevel() + 1 + "&7: ");
+        sb.append((int) (gp.getgExp() / Main.levels.get(gp.getgLevel() + 1).getExp()) * 100); //% completion
+        return translate(sb.toString());
     }
 
     @EventHandler

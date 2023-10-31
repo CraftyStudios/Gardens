@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.plugin.Plugin;
+
 import me.pillage.garden.Enums.Crops;
 
 public class GPlayer {
@@ -16,6 +18,21 @@ public class GPlayer {
         this.uuid = uuid;
         this.gLevel = gLevel;
         this.gExp = gExp;
+
+        for (Crops crop : Crops.values()) {
+            cropLevels.put(crop, 0);
+        }
+
+        Main.gPlayers.put(uuid, this);
+    }
+
+    public GPlayer(UUID uuid, int gLevel, int gExp, Map<Crops, Integer> cropLevels) {
+        this.uuid = uuid;
+        this.gLevel = gLevel;
+        this.gExp = gExp;
+        this.cropLevels = cropLevels;
+
+        Main.gPlayers.put(uuid, this);
     }
     
     public UUID getUuid() {
@@ -28,6 +45,10 @@ public class GPlayer {
 
     public int getgExp() {
         return gExp;
+    }
+
+    public int getCropLevel(Crops crop) {
+        return cropLevels.get(crop);
     }
 
     @Override
@@ -59,5 +80,5 @@ public class GPlayer {
         if (gExp != other.gExp)
             return false;
         return true;
-    }
+    } 
 }

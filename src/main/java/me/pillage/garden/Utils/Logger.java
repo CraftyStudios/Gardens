@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
 public class Logger {
-    private static ConsoleCommandSender console = Bukkit.getConsoleSender();
+    private static final ConsoleCommandSender console = Bukkit.getConsoleSender();
 
     public static void log(LogLevel level, String message) {
         if (message == null) return;

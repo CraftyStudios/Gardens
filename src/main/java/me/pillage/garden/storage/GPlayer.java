@@ -1,10 +1,10 @@
-package me.pillage.garden;
+package me.pillage.garden.storage;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.plugin.Plugin;
+import me.pillage.garden.Main;
 
 import me.pillage.garden.Enums.Crops;
 
@@ -77,8 +77,6 @@ public class GPlayer {
             return false;
         if (gLevel != other.gLevel)
             return false;
-        if (gExp != other.gExp)
-            return false;
-        return true;
+        return gExp == other.gExp;
     } 
 }

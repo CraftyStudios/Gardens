@@ -12,19 +12,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.pillage.garden.GPlayer;
-import me.pillage.garden.Levels;
+import me.pillage.garden.storage.GPlayer;
 import me.pillage.garden.Main;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import net.md_5.bungee.api.ChatColor;
 
 public class Garden implements Listener {
-    private Inventory inv;
+    private final Inventory inv;
 
     public Garden() {
         inv = Bukkit.createInventory(null, 27, "Garden Desk");
@@ -39,6 +36,7 @@ public class Garden implements Listener {
     private ItemStack create(String name, Material mat, String... lore) {
         ItemStack item = new ItemStack(mat);
         ItemMeta meta = item.getItemMeta();
+        assert meta != null;
         meta.setDisplayName(translate(name));
         meta.setLore(translate(Arrays.asList(lore)));
         item.setItemMeta(meta);
@@ -57,16 +55,16 @@ public class Garden implements Listener {
         Inventory clone = Bukkit.createInventory(null, inv.getSize(), "Garden Desk");
         clone.setContents(
             Arrays.stream(inv.getContents())
-                .map(item -> {
+                .peek(item -> {
                     if (item != null) {
                         ItemMeta meta = item.getItemMeta();
                         if (meta != null && meta.hasLore()) {
                             List<String> lore = meta.getLore();
+                            assert lore != null;
                             meta.setLore(replacePlaceholders(lore, (Player) entity));
                             item.setItemMeta(meta);
                         }
                     }
-                    return item;
                 })
                 .toArray(ItemStack[]::new)
         );
@@ -76,16 +74,15 @@ public class Garden implements Listener {
 
     private List<String> replacePlaceholders(List<String> lore, Player p) {
         GPlayer gp = Main.getGPlayer(p.getUniqueId());
-        return lore.stream().map(s -> s.replaceAll("{level}", String.valueOf(gp.getgLevel())).replaceAll("{progress-top}", s)).collect(Collectors.toList());
+        return lore.stream().map(s -> s.replaceAll("\\{level}", String.valueOf(gp.getgLevel())).replaceAll("\\{progress-top}", getProgressTop(p))).collect(Collectors.toList());
     }
 
     private String getProgressTop(Player p) {
         GPlayer gp = Main.getGPlayer(p.getUniqueId());
-        StringBuilder sb = new StringBuilder();
-        sb.append("&7Progress to Level ");
-        sb.append(gp.getgLevel() + 1 + "&7: ");
-        sb.append((int) (gp.getgExp() / Main.levels.get(gp.getgLevel() + 1).getExp()) * 100); //% completion
-        return translate(sb.toString());
+        String string = "&7Progress to Level " +
+                (gp.getgLevel() + 1) + "&7: " +
+                (gp.getgExp() / Main.levels.get(gp.getgLevel() + 1).getExp()) * 100;
+        return translate(string);
     }
 
     @EventHandler

@@ -1,4 +1,4 @@
-package me.pillage.garden;
+package me.pillage.garden.storage;
 
 public class Levels {
     private int level;
